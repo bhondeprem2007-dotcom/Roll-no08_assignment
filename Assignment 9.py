@@ -1,47 +1,46 @@
 import csv
 import json
 
-def read_csv(file_name):
-    with open(file_name, "r", newline="") as file:
-        data = csv.DictReader(file)
-        return list(data)
+def read_csv(input_path):
+    with open(input_path, "r", newline="") as f:
+        reader = csv.DictReader(f)
+        return list(reader)
 
-def write_json(file_name, data):
-    with open(file_name, "w") as file:
-        json.dump(data, file, indent=4)
+def write_json(output_path, data):
+    with open(output_path, "w") as f:
+        json.dump(data, f, indent=4)
 
-def convert_csv_to_json(csv_file, json_file):
-    data = read_csv(csv_file)
-    write_json(json_file, data)
+def convert_csv_to_json(input_path, output_path):
+    data = read_csv(input_path)
+    write_json(output_path, data)
     return data
 
 if __name__ == "__main__":
+    input_path = "students.csv"
+    output_path = "students.json"
 
-    csv_file = "students.csv"
-    json_file = "students.json"
-
-    data = (
+    sample_csv = (
         "id,name,department,marks\n"
-        "1,Aditi,Computer Science,88\n"
-        "2,Rahul,Mechanical,76\n"
-        "3,Sneha,Electronics,92\n"
+        "1,Ansh,Computer Science,88\n"
+        "2,Ananya,Mechanical,76\n"
+        "3,Nehal,Electronics,92\n"
+        "4,Deven,Civil,85\n"
     )
 
-    with open(csv_file, "w", newline="") as file:
-        file.write(data)
+    with open(input_path, "w", newline="") as f:
+        f.write(sample_csv)
 
-    print("CSV file created successfully!")
-    print("\nCSV Data:")
+    print(f"Created sample CSV file: {input_path}\n")
 
-    with open(csv_file, "r") as file:
-        print(file.read())
+    print(f"Contents of '{input_path}':")
+    with open(input_path, "r") as f:
+        print(f.read())
 
-    result = convert_csv_to_json(csv_file, json_file)
+    data = convert_csv_to_json(input_path, output_path)
 
-    print("CSV converted to JSON successfully!")
-    print("Number of records:", len(result))
+    print(f"Converted {len(data)} row(s) from CSV to JSON.")
+    print(f"JSON written to: {output_path}\n")
 
-    print("\nJSON Data:")
-
-    with open(json_file, "r") as file:
-        print(file.read())
+    print(f"Contents of '{output_path}':")
+    with open(output_path, "r") as f:
+        print(f.read())
